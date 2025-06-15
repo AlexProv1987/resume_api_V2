@@ -4,7 +4,7 @@ from rest_framework import serializers
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skill
-        fields=('skill_name','skill_description','years_of_experience',)
+        fields='__all__'
 
 class EducationSerializer(serializers.ModelSerializer):
     class Meta:

@@ -11,8 +11,10 @@ class Applicant(models.Model):
         )
     user_reltn = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name='User')
     accepting_work = models.BooleanField(default=True,verbose_name='Open To Work')
-    applicant_bio = models.TextField(max_length=300, verbose_name='Biography')
+    applicant_bio = models.TextField(max_length=3000, verbose_name='Biography')
     banner_img = models.URLField(null=True,blank=True)
+    applicant_photo = models.URLField(null=True,blank=True)
+    current_title = models.CharField(max_length=50)
     
     def __str__(self):
         return f"{self.user_reltn.first_name}  {self.user_reltn.last_name}"
