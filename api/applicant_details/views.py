@@ -9,7 +9,7 @@ class GetApplicantSkills(ListAPIView):
         return self.list(request, *args, **kwargs)
     
     def get_queryset(self):
-        queryset = Skill.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None))
+        queryset = Skill.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None)).order_by('order')
         return queryset
     
 class GetApplicantEducation(ListAPIView):
@@ -19,7 +19,7 @@ class GetApplicantEducation(ListAPIView):
         return self.list(request, *args, **kwargs)
     
     def get_queryset(self):
-        queryset = Education.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None))
+        queryset = Education.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None)).order_by('order')
         return queryset
     
 class GetApplicantCertifications(ListAPIView):
@@ -29,7 +29,7 @@ class GetApplicantCertifications(ListAPIView):
         return self.list(request, *args, **kwargs)
     
     def get_queryset(self):
-        queryset = Certification.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None))
+        queryset = Certification.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None)).order_by('order')
         return queryset
      
 class GetApplicantReferences(ListAPIView):
@@ -39,7 +39,7 @@ class GetApplicantReferences(ListAPIView):
         return self.list(request, *args, **kwargs)
     
     def get_queryset(self):
-        queryset = References.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None))
+        queryset = References.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None)).order_by('order')
         return queryset
     
 class GetApplicantAdditionalContext(ListAPIView):
@@ -49,6 +49,6 @@ class GetApplicantAdditionalContext(ListAPIView):
         return self.list(request, *args, **kwargs)
     
     def get_queryset(self):
-        queryset = AdditionalContext.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None))
+        queryset = AdditionalContext.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None),active=True)
         return queryset
       

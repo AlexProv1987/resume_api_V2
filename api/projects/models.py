@@ -14,7 +14,7 @@ class Project(models.Model):
     demo_url = models.URLField(null=True,blank=True)
     source_control_url = models.URLField(null=True,blank=True)
     description = models.TextField(max_length=500,blank=True,null=True)
-    
+    order = models.PositiveIntegerField(default=100)
     def __str__(self):
         return self.name
 
@@ -28,6 +28,7 @@ class ProjectDetails(models.Model):
     project_reltn = models.ForeignKey(Project,on_delete=models.CASCADE)
     detail_text = models.CharField(max_length=255,blank=True,null=True)
     detail_image = models.URLField(blank=True,null=True)
+    order = models.PositiveIntegerField(default=100)
     
     def __str__(self):
         return self.project_reltn.name

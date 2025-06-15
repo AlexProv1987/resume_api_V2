@@ -3,7 +3,7 @@ from .models import *
 # Register your models here.
 @admin.register(WorkHistory)
 class WorkHistoryAdmin(admin.ModelAdmin):
-    pass
+    list_display=('employer_name','job_title',)
 
 @admin.register(WorkHistoryDetails)
 class WorkHistoryDetailsAdmin(admin.ModelAdmin):

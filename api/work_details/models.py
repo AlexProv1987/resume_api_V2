@@ -19,6 +19,9 @@ class WorkHistory(models.Model):
     order = models.PositiveIntegerField(default=100)
     active = models.BooleanField(default=True)
     
+    def __str__(self):
+        return self.employer_name
+    
 class WorkHistoryDetails(models.Model):
     id = models.CharField(
         max_length=37,
@@ -30,3 +33,6 @@ class WorkHistoryDetails(models.Model):
     work_detail_text = models.CharField(max_length=255)
     order = models.PositiveIntegerField(default=100)
     active = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return self.work_reltn.employer_name
