@@ -7,7 +7,6 @@ class GetProjects(ListAPIView):
     serializer_class=ProjectSerializer
     
     def get(self, request, *args, **kwargs):
-        print(request.META)
         return self.list(request, *args, **kwargs)
     
     def get_queryset(self):

@@ -29,7 +29,7 @@ class WorkHistoryDetails(models.Model):
         editable=False,
         default=generate_id
         )
-    work_reltn = models.ForeignKey(WorkHistory,on_delete=models.CASCADE)
+    work_reltn = models.ForeignKey(WorkHistory,on_delete=models.CASCADE,related_name='work_details')
     work_detail_text = models.CharField(max_length=255)
     order = models.PositiveIntegerField(default=100)
     active = models.BooleanField(default=True)
