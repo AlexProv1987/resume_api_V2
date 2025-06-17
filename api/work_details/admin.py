@@ -7,4 +7,4 @@ class WorkHistoryAdmin(admin.ModelAdmin):
 
 @admin.register(WorkHistoryDetails)
 class WorkHistoryDetailsAdmin(admin.ModelAdmin):
-    pass
+    list_display=('work_reltn','work_reltn__job_title','work_detail_text',)

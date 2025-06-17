@@ -66,7 +66,7 @@ class References(models.Model):
     relation = models.CharField(max_length=255)
     job_title=models.CharField(max_length=50,null=True,blank=True)
     order=models.PositiveIntegerField(default=100)
-    
+    reference_recommendation = models.CharField(max_length=255,null=True,blank=True)
     def __str__(self):
         return self.name
     

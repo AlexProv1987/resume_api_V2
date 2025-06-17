@@ -13,6 +13,7 @@ class Project(models.Model):
     name = models.CharField(max_length=75)
     demo_url = models.URLField(null=True,blank=True)
     source_control_url = models.URLField(null=True,blank=True)
+    video_url = models.URLField(null=True,blank=True)
     description = models.TextField(max_length=500,blank=True,null=True)
     order = models.PositiveIntegerField(default=100)
     def __str__(self):

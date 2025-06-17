@@ -7,6 +7,7 @@ class GetProjects(ListAPIView):
     serializer_class=ProjectSerializer
     
     def get(self, request, *args, **kwargs):
+        print(request.META)
         return self.list(request, *args, **kwargs)
     
     def get_queryset(self):
@@ -18,10 +19,8 @@ class GetProjectDetails(ListAPIView):
     serializer_class=ProjectDetailsSerializer
     
     def get(self, request, *args, **kwargs):
-        print(request.query_params.get('project',None))
         return self.list(request, *args, **kwargs)
     
     def get_queryset(self):
         queryset = ProjectDetails.objects.filter(project_reltn=self.request.query_params.get('project',None)).order_by('order')
-        print(queryset)
         return queryset
