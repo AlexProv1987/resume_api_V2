@@ -5,6 +5,7 @@ from django import forms
 # Register your models here.
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):
+    list_display=('skill_name','applicant_reltn',)
     search_fields=('skill_name',)
     search_help_text='Search By Skill Name'
     
@@ -48,6 +49,7 @@ class SkillAdmin(admin.ModelAdmin):
 @admin.register(Education)
 class EducationAdmin(admin.ModelAdmin):
     
+    list_display=('name','applicant_reltn',)
     search_fields=('name',)
     search_help_text='Search By Institution Name'
     
