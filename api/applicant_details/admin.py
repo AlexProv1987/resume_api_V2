@@ -216,8 +216,7 @@ class AwardsAdmin(admin.ModelAdmin):
         if obj: 
             return ('applicant_reltn',)
         return ()
-    
-    
+      
 @admin.register(AdditionalContext)
 class AdditionalContextAdmin(admin.ModelAdmin):
     list_display=('applicant_reltn','context_text','active')
