@@ -7,6 +7,7 @@ class SkillSerializer(serializers.ModelSerializer):
         fields='__all__'
 
 class EducationSerializer(serializers.ModelSerializer):
+    education_level = serializers.CharField(source='get_education_level_display',read_only=True)
     class Meta:
         model = Education
         fields='__all__'

@@ -6,7 +6,10 @@ from django.utils.translation import gettext_lazy as _
 @admin.register(User)
 class CustomerUserManager(UserAdmin):
     
-    list_display=('username','first_name','last_name')
+    list_display=('username',
+                  'first_name',
+                  'last_name'
+                )
     
     def get_fieldsets(self, request, obj=None):
         if request.user.is_superuser:
