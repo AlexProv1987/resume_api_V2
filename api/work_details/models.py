@@ -19,6 +19,30 @@ class WorkHistory(models.Model):
     order = models.PositiveIntegerField(default=100)
     active = models.BooleanField(default=True)
     
+    @staticmethod
+    def getWorkInformationObj(applicant):
+        work_queryset = WorkHistory.objects.filter(applicant_reltn=applicant).prefetch_related('work_details').order_by('order')
+        work_list = []
+        for work in work_queryset:
+            work_details = list(work.work_details.all())
+            work_list.append({
+                "work": work,
+                "details": work_details
+            })
+        return work_list
+    
+    @staticmethod
+    def getWorkInformationSerialized(applicant):
+        from .serializers import WorkHistorySerializer,WorkHistoryDetailsSerializer
+        work_queryset = WorkHistory.objects.filter(applicant_reltn=applicant).prefetch_related('work_details').order_by('order')
+        work_list = []
+        for work in work_queryset:
+            work_list.append({
+                "work": WorkHistorySerializer(work).data,
+                "details": WorkHistoryDetailsSerializer(work.work_details.all(), many=True).data
+            })
+        return work_list
+    
     def __str__(self):
         return self.employer_name
     

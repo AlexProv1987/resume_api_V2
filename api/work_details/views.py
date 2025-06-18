@@ -1,6 +1,9 @@
 from rest_framework.generics import ListAPIView
+from rest_framework.views import APIView
 from .serializers import *
 from .models import *
+from rest_framework.response import Response
+from rest_framework.status import HTTP_200_OK
 # Create your views here.
 class GetApplicantWorkHistory(ListAPIView):
     
@@ -23,3 +26,7 @@ class GetWorkHistoryDetails(ListAPIView):
     def get_queryset(self):
         queryset = WorkHistoryDetails.objects.filter(work_reltn=self.request.query_params.get('work_id',None)).order_by('order')
         return queryset
+    
+class GetApplicantWorkData(APIView):
+    def get(self, request, *args, **kwargs):
+        return Response(WorkHistory.getWorkInformationSerialized(request.query_params.get('applicant',None)),status=HTTP_200_OK)
