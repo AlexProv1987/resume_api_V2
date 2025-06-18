@@ -1,4 +1,4 @@
-from .models import *
+from .models import WorkHistory,WorkHistoryDetails
 from rest_framework import serializers
 
 class WorkHistorySerializer(serializers.ModelSerializer):

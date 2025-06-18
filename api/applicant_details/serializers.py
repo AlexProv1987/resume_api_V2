@@ -21,6 +21,11 @@ class ReferencesSerializer(serializers.ModelSerializer):
         model = References
         fields='__all__'
         
+class AwardsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Awards
+        fields='__all__'
+        
 class AdditionalContextSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdditionalContext

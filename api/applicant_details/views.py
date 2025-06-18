@@ -42,6 +42,16 @@ class GetApplicantReferences(ListAPIView):
         queryset = References.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None)).order_by('order')
         return queryset
     
+class GetApplicantAwards(ListAPIView):
+    serializer_class=AwardsSerializer
+    
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+    
+    def get_queryset(self):
+        queryset = Awards.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None)).order_by('order')
+        return queryset
+    
 class GetApplicantAdditionalContext(ListAPIView):
     serializer_class=AdditionalContextSerializer
     

@@ -20,3 +20,8 @@ class ReferencesAdmin(admin.ModelAdmin):
 @admin.register(AdditionalContext)
 class AdditionalContextAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(Awards)
+class AwardsAdmin(admin.ModelAdmin):
+    pass

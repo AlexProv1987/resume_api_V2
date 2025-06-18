@@ -70,6 +70,18 @@ class References(models.Model):
     def __str__(self):
         return self.name
     
+class Awards(models.Model):
+    id = models.CharField(
+        max_length=37,
+        primary_key=True,
+        editable=False,
+        default=generate_id
+        )
+    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE)
+    reward_name = models.CharField(max_length=50)
+    reward_descrption = models.CharField(max_length=150,blank=True,null=True)
+    order=models.PositiveIntegerField(default=100)
+
 class AdditionalContext(models.Model):
     id = models.CharField(
         max_length=37,
@@ -83,4 +95,3 @@ class AdditionalContext(models.Model):
     
     def __str__(self):
         return f"{self.applicant_reltn.user_reltn.first_name} {self.applicant_reltn.user_reltn.last_name}" 
-    
