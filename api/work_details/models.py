@@ -24,7 +24,7 @@ class WorkHistory(models.Model):
         work_queryset = WorkHistory.objects.filter(applicant_reltn=applicant).prefetch_related('work_details').order_by('order')
         work_list = []
         for work in work_queryset:
-            work_details = list(work.work_details.all())
+            work_details = list(work.work_details.all().order_by('order'))
             work_list.append({
                 "work": work,
                 "details": work_details
@@ -39,7 +39,7 @@ class WorkHistory(models.Model):
         for work in work_queryset:
             work_list.append({
                 "work": WorkHistorySerializer(work).data,
-                "details": WorkHistoryDetailsSerializer(work.work_details.all(), many=True).data
+                "details": WorkHistoryDetailsSerializer(work.work_details.all().order_by('order'), many=True).data
             })
         return work_list
     
