@@ -8,6 +8,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display=('name','applicant_reltn','order',)
     search_fields=('name',)
     search_help_text='Search By Project Name'
+    list_editable=('order',)
     
     fields = ('applicant_reltn',
               'name',

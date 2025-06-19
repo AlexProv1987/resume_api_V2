@@ -1,7 +1,7 @@
 from django.db import models
 from api.applicant.models import Applicant
 from common.pk_generator import generate_id
-
+from django.utils.translation import gettext_lazy as _
 # Create your models here.
 class WorkHistory(models.Model):
     id = models.CharField(
@@ -10,12 +10,12 @@ class WorkHistory(models.Model):
         editable=False,
         default=generate_id
         )
-    employer_name = models.CharField(max_length=100)
-    job_title = models.CharField(max_length=50)
-    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE)
-    from_date = models.DateField()
-    to_date = models.DateField(null=True,blank=True)
-    current_employer = models.BooleanField(default=False)
+    employer_name = models.CharField(max_length=100,verbose_name=_('Employer Name'))
+    job_title = models.CharField(max_length=50,verbose_name=_('Job Title'))
+    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'))
+    from_date = models.DateField(verbose_name=_('Start Date'))
+    to_date = models.DateField(null=True,blank=True,verbose_name=_('End Date'))
+    current_employer = models.BooleanField(default=False,verbose_name=_('Current Employer'))
     order = models.PositiveIntegerField(default=100)
     active = models.BooleanField(default=True)
     
@@ -46,6 +46,9 @@ class WorkHistory(models.Model):
     def __str__(self):
         return self.employer_name
     
+    class Meta:
+        verbose_name_plural=_('Employer')
+        
 class WorkHistoryDetails(models.Model):
     id = models.CharField(
         max_length=37,
@@ -53,10 +56,13 @@ class WorkHistoryDetails(models.Model):
         editable=False,
         default=generate_id
         )
-    work_reltn = models.ForeignKey(WorkHistory,on_delete=models.CASCADE,related_name='work_details')
-    work_detail_text = models.CharField(max_length=255)
+    work_reltn = models.ForeignKey(WorkHistory,on_delete=models.CASCADE,related_name='work_details',verbose_name=_('Employer'))
+    work_detail_text = models.CharField(max_length=255,verbose_name=_('Description'), help_text=_('These are your work bullet points on a resume.'))
     order = models.PositiveIntegerField(default=100)
     active = models.BooleanField(default=True)
     
     def __str__(self):
         return self.work_reltn.employer_name
+        
+    class Meta:
+        verbose_name_plural=_('Employment Details')
