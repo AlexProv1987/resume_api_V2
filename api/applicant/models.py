@@ -1,6 +1,7 @@
 from django.db import models
 from common.pk_generator import generate_id
 from api.user.models import User
+from django.db.models import Prefetch
 from django.utils.translation import gettext_lazy as _
 # Create your models here.
 class Applicant(models.Model):
@@ -17,5 +18,29 @@ class Applicant(models.Model):
     applicant_photo = models.URLField(null=True,blank=True,verbose_name=_('Photo'))
     current_title = models.CharField(max_length=50,null=True,blank=True,verbose_name=_('Current Title'))
     
+    @staticmethod
+    def get_applicant_resume(applicant_id:str):
+        from api.work_details.models import WorkHistory
+        from api.projects.models import Project
+        
+        aplicant=Applicant.objects.prefetch_related(
+            'skills',
+            'education',
+            'certifications',
+            'awards',
+            'references',
+            'context',
+            Prefetch(
+                'projects',
+                queryset=Project.objects.prefetch_related('project_details')
+            ),
+            Prefetch(
+                'work',
+                queryset=WorkHistory.objects.prefetch_related('work_details')
+            )
+        ).get(pk=applicant_id)
+        
+        return aplicant
+        
     def __str__(self):
         return f"{self.user_reltn.first_name}  {self.user_reltn.last_name}"

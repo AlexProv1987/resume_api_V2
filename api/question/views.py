@@ -1,14 +1,9 @@
 from openai import OpenAI
-from django.http import JsonResponse
 from django.conf import settings
 from api.applicant.models import Applicant
-from api.work_details.models import WorkHistory
-from api.projects.models import Project
-from django.db.models import Prefetch
-from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK,HTTP_500_INTERNAL_SERVER_ERROR
+from rest_framework.status import HTTP_200_OK,HTTP_500_INTERNAL_SERVER_ERROR,HTTP_404_NOT_FOUND
 # Create your views here.
 class AskQuestion(APIView):
 
@@ -18,26 +13,13 @@ class AskQuestion(APIView):
     )
     
     def post(self,request,*args,**kwargs):
-        #lets move this to the applicant model as a static method so we can use later for resume
-        applicant = get_object_or_404(
-            Applicant.objects.prefetch_related(
-            'skills',
-            'education',
-            'certifications',
-            'awards',
-            'references',
-            'context',
-            Prefetch(
-                'projects',
-                queryset=Project.objects.prefetch_related('project_details')
-            ),
-            Prefetch(
-                'work',
-                queryset=WorkHistory.objects.prefetch_related('work_details')
-            )
-        ),
-        pk=request.data.get('applicant',None))
+        applicant = Applicant.get_applicant_resume(request.data.get('applicant',None))
+        
+        if applicant is None:
+            return Response({},status=HTTP_404_NOT_FOUND)
+        
         context = self.generate_applicant_context(applicant)
+        
         try:
             answer = self.ask_chatgpt(context,request.data.get('question',None))
             return Response({'answer':answer},status=HTTP_200_OK) 
@@ -79,6 +61,7 @@ class AskQuestion(APIView):
             lines.append("=== Projects ===")
             for project in applicant.projects.all():
                 lines.append(f"Project: {project.name}")
+                lines.append(f"- {project.description}")
                 for detail in project.project_details.all():
                     lines.append(f"- {detail.detail_text}")
             lines.append("")
@@ -93,7 +76,7 @@ class AskQuestion(APIView):
         response = self.client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "You are assisting a potential employer asking questions about the resume provided, if they are not applicable to that tell them you are strictly here to assist in the hiring process. Answer in 6 sentences or less."},
+            {"role": "system", "content": "You are assisting a potential employer asking questions about this. If this is not related to employment let them know you are not able to assist. Answer in 6 sentences or less."},
             {"role": "user", "content": context},
             {"role": "user", "content": prompt}
         ])
