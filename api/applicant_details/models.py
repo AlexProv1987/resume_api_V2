@@ -10,7 +10,10 @@ class Skill(models.Model):
         editable=False,
         default=generate_id
         )
-    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'))
+    applicant_reltn = models.ForeignKey(Applicant,
+                                        on_delete=models.CASCADE,
+                                        verbose_name=_('Applicant'),
+                                        related_name='skills')
     skill_name = models.CharField(max_length=50,db_index=True,verbose_name=_('Skill'))
     skill_description = models.CharField(max_length=255,blank=True,null=True,verbose_name=_('Short Description'))
     years_of_experience = models.PositiveIntegerField(default=0,verbose_name=_('Years of Experience'))
@@ -44,8 +47,13 @@ class Education(models.Model):
         editable=False,
         default=generate_id
         )
-    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'))
-    education_level = models.CharField(choices=EDUCATION_LEVEL_CHOICES,max_length=255,verbose_name=_('Education Level'))
+    applicant_reltn = models.ForeignKey(Applicant,
+                                        on_delete=models.CASCADE,
+                                        verbose_name=_('Applicant'),
+                                        related_name='education')
+    education_level = models.CharField(choices=EDUCATION_LEVEL_CHOICES,
+                                       max_length=30,
+                                       verbose_name=_('Education Level'))
     area_of_study = models.CharField(max_length=50,null=True,blank=True,db_index=True,verbose_name=_('Major'))
     name = models.CharField(max_length=255,verbose_name=_('Institution'))
     from_date = models.DateField(blank=False,null=False,verbose_name=_('Start Date'))
@@ -66,7 +74,7 @@ class Certification(models.Model):
         editable=False,
         default=generate_id
         )
-    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'))
+    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'),related_name='certifications')
     name = models.CharField(max_length=255,db_index=True,verbose_name=_('Certification Name'))
     attained_on = models.DateField(null=False,verbose_name=_('Recieved Date'))
     order=models.PositiveIntegerField(default=100)
@@ -81,7 +89,7 @@ class References(models.Model):
         editable=False,
         default=generate_id
         )
-    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'))
+    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'),related_name='references')
     name = models.CharField(max_length=255,db_index=True,verbose_name=_('Reference Full Name'))
     relation = models.CharField(max_length=255,verbose_name=_('Relation'))
     job_title=models.CharField(max_length=50,null=True,blank=True,verbose_name=_('Job Title'))
@@ -101,7 +109,7 @@ class Awards(models.Model):
         editable=False,
         default=generate_id
         )
-    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'))
+    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'),related_name='awards')
     reward_name = models.CharField(max_length=50,db_index=True,verbose_name=_('Award Name'))
     reward_descrption = models.CharField(max_length=150,blank=True,null=True,verbose_name=_('Short Description'))
     order=models.PositiveIntegerField(default=100)
@@ -119,7 +127,10 @@ class AdditionalContext(models.Model):
         editable=False,
         default=generate_id
         )
-    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'))
+    applicant_reltn = models.ForeignKey(Applicant,
+                                        on_delete=models.CASCADE,
+                                        verbose_name=_('Applicant'),
+                                        related_name='context')
     context_text = models.CharField(max_length=255,
                                     verbose_name=_('Context'), 
                                     help_text=_("Additional Information you want to tell a LLM to know you more.")

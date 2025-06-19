@@ -10,9 +10,12 @@ class WorkHistory(models.Model):
         editable=False,
         default=generate_id
         )
+    applicant_reltn = models.ForeignKey(Applicant,
+                                        on_delete=models.CASCADE,
+                                        verbose_name=_('Applicant'),
+                                        related_name='work')
     employer_name = models.CharField(max_length=100,verbose_name=_('Employer Name'))
     job_title = models.CharField(max_length=50,verbose_name=_('Job Title'))
-    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'))
     from_date = models.DateField(verbose_name=_('Start Date'))
     to_date = models.DateField(null=True,blank=True,verbose_name=_('End Date'))
     current_employer = models.BooleanField(default=False,verbose_name=_('Current Employer'))

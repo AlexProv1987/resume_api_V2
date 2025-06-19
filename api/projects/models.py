@@ -10,7 +10,10 @@ class Project(models.Model):
         editable=False,
         default=generate_id
         )
-    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'))
+    applicant_reltn = models.ForeignKey(Applicant,
+                                        on_delete=models.CASCADE,
+                                        verbose_name=_('Applicant'),
+                                        related_name='projects')
     name = models.CharField(max_length=75,verbose_name=_('Project Name'))
     demo_url = models.URLField(null=True,blank=True,verbose_name=_('Demo'))
     source_control_url = models.URLField(null=True,blank=True,verbose_name=_('Source Control'))
