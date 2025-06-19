@@ -2,13 +2,14 @@ from django.contrib import admin
 from .models import *
 from django.core.exceptions import ValidationError
 from django import forms
+
 # Register your models here.
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):
-    list_display=('skill_name','applicant_reltn',)
+    list_display=('skill_name','applicant_reltn','order',)
     search_fields=('skill_name',)
     search_help_text='Search By Skill Name'
-    
+    list_editable=('order',)
     fields = ('applicant_reltn',
               'skill_name',
               'skill_description',
@@ -21,7 +22,7 @@ class SkillAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
            return qs
-        return qs.filter(applicant_reltn__user_reltn=request.user)
+        return qs.filter(applicant_reltn__user_reltn=request.user).order_by('order')
         
     def get_fields(self, request, obj=None):
         fields = super().get_fields(request, obj)
@@ -49,10 +50,10 @@ class SkillAdmin(admin.ModelAdmin):
 @admin.register(Education)
 class EducationAdmin(admin.ModelAdmin):
     
-    list_display=('name','applicant_reltn',)
+    list_display=('name','applicant_reltn','order',)
     search_fields=('name',)
     search_help_text='Search By Institution Name'
-    
+    list_editable=('order',)
     fields = ('applicant_reltn',
               'name',
               'education_level',
@@ -66,7 +67,7 @@ class EducationAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
            return qs
-        return qs.filter(applicant_reltn__user_reltn=request.user)
+        return qs.filter(applicant_reltn__user_reltn=request.user).order_by('order')
     
     def get_fields(self, request, obj=None):
         fields = super().get_fields(request, obj)
@@ -94,9 +95,10 @@ class EducationAdmin(admin.ModelAdmin):
 @admin.register(Certification)
 class CertificationAdmin(admin.ModelAdmin):
     
-    list_display=('name','applicant_reltn')
+    list_display=('name','applicant_reltn','order',)
     search_fields=('name',)
     search_help_text='Search By Certification Name'
+    list_editable=('order',)
     
     fields=('applicant_reltn',
             'name',
@@ -114,7 +116,7 @@ class CertificationAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
            return qs
-        return qs.filter(applicant_reltn__user_reltn=request.user)
+        return qs.filter(applicant_reltn__user_reltn=request.user).order_by('order')
     
     def save_model(self, request, obj, form, change):
         
@@ -136,9 +138,10 @@ class CertificationAdmin(admin.ModelAdmin):
 @admin.register(References)
 class ReferencesAdmin(admin.ModelAdmin):
     
-    list_display=('name','applicant_reltn')
+    list_display=('name','applicant_reltn','order',)
     search_fields=('name',)
     search_help_text='Search By Reference Name'
+    list_editable=('order',)
     
     fields=('applicant_reltn',
             'name',
@@ -158,7 +161,7 @@ class ReferencesAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
            return qs
-        return qs.filter(applicant_reltn__user_reltn=request.user)
+        return qs.filter(applicant_reltn__user_reltn=request.user).order_by('order')
     
     def save_model(self, request, obj, form, change):
         
@@ -180,9 +183,10 @@ class ReferencesAdmin(admin.ModelAdmin):
 @admin.register(Awards)
 class AwardsAdmin(admin.ModelAdmin):
     
-    list_display=('reward_name','applicant_reltn')
+    list_display=('reward_name','applicant_reltn','order')
     search_fields=('reward_name',)
     search_help_text='Search By Award Name'
+    list_editable=('order',)
     
     fields=('applicant_reltn',
             'reward_name',
@@ -200,7 +204,7 @@ class AwardsAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
            return qs
-        return qs.filter(applicant_reltn__user_reltn=request.user)
+        return qs.filter(applicant_reltn__user_reltn=request.user).order_by('order')
     
     def save_model(self, request, obj, form, change):
         

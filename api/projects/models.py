@@ -1,6 +1,7 @@
 from django.db import models
 from api.applicant.models import Applicant
 from common.pk_generator import generate_id
+from django.utils.translation import gettext_lazy as _
 # Create your models here.
 class Project(models.Model):
     id = models.CharField(
@@ -9,12 +10,12 @@ class Project(models.Model):
         editable=False,
         default=generate_id
         )
-    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE)
-    name = models.CharField(max_length=75)
-    demo_url = models.URLField(null=True,blank=True)
-    source_control_url = models.URLField(null=True,blank=True)
-    video_url = models.URLField(null=True,blank=True)
-    description = models.TextField(max_length=500,blank=True,null=True)
+    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'))
+    name = models.CharField(max_length=75,verbose_name=_('Project Name'))
+    demo_url = models.URLField(null=True,blank=True,verbose_name=_('Demo'))
+    source_control_url = models.URLField(null=True,blank=True,verbose_name=_('Source Control'))
+    video_url = models.URLField(null=True,blank=True,verbose_name=_('Video'))
+    description = models.TextField(max_length=500,verbose_name=_('Description'))
     order = models.PositiveIntegerField(default=100)
     
     @staticmethod
@@ -51,10 +52,13 @@ class ProjectDetails(models.Model):
         editable=False,
         default=generate_id
         )
-    project_reltn = models.ForeignKey(Project,on_delete=models.CASCADE, related_name='project_details')
-    detail_text = models.CharField(max_length=255,blank=True,null=True)
-    detail_image = models.URLField(blank=True,null=True)
+    project_reltn = models.ForeignKey(Project,on_delete=models.CASCADE, related_name='project_details',verbose_name=_('Project'))
+    detail_text = models.CharField(max_length=255,blank=True,null=True,verbose_name=_('Short Description'))
+    detail_image = models.URLField(blank=True,null=True,verbose_name=_('Image'))
     order = models.PositiveIntegerField(default=100)
     
     def __str__(self):
         return self.project_reltn.name
+    
+    class Meta:
+        verbose_name_plural=_('Project Details')
