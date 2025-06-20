@@ -22,7 +22,7 @@ class SkillAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
            return qs
-        return qs.filter(applicant_reltn__user_reltn=request.user).order_by('order')
+        return qs.filter(applicant_reltn__user_reltn=request.user)
         
     def get_fields(self, request, obj=None):
         fields = super().get_fields(request, obj)
@@ -67,7 +67,7 @@ class EducationAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
            return qs
-        return qs.filter(applicant_reltn__user_reltn=request.user).order_by('order')
+        return qs.filter(applicant_reltn__user_reltn=request.user)
     
     def get_fields(self, request, obj=None):
         fields = super().get_fields(request, obj)
@@ -116,7 +116,7 @@ class CertificationAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
            return qs
-        return qs.filter(applicant_reltn__user_reltn=request.user).order_by('order')
+        return qs.filter(applicant_reltn__user_reltn=request.user)
     
     def save_model(self, request, obj, form, change):
         
@@ -161,7 +161,7 @@ class ReferencesAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
            return qs
-        return qs.filter(applicant_reltn__user_reltn=request.user).order_by('order')
+        return qs.filter(applicant_reltn__user_reltn=request.user)
     
     def save_model(self, request, obj, form, change):
         
@@ -204,7 +204,7 @@ class AwardsAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
            return qs
-        return qs.filter(applicant_reltn__user_reltn=request.user).order_by('order')
+        return qs.filter(applicant_reltn__user_reltn=request.user)
     
     def save_model(self, request, obj, form, change):
         

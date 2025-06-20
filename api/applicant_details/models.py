@@ -23,6 +23,9 @@ class Skill(models.Model):
     def __str__(self):
         return self.skill_name
     
+    class Meta:
+        ordering = ['order']
+        
 class Education(models.Model):
     
     EDUCATION_LEVEL_CHOICES = [
@@ -66,6 +69,7 @@ class Education(models.Model):
     
     class Meta:
         verbose_name_plural=_('Education')
+        ordering = ['order']
         
 class Certification(models.Model):
     id = models.CharField(
@@ -82,6 +86,9 @@ class Certification(models.Model):
     def __str__(self):
         return self.name
     
+    class Meta:
+        ordering = ['order']
+        
 class References(models.Model):
     id = models.CharField(
         max_length=37,
@@ -101,6 +108,7 @@ class References(models.Model):
     
     class Meta:
         verbose_name_plural=_('References')
+        ordering = ['order']
         
 class Awards(models.Model):
     id = models.CharField(
@@ -119,6 +127,7 @@ class Awards(models.Model):
     
     class Meta:
         verbose_name_plural=_('Awards')
+        ordering = ['order']
         
 class AdditionalContext(models.Model):
     id = models.CharField(

@@ -13,7 +13,7 @@ class GetApplicantWorkHistory(ListAPIView):
         return self.list(request, *args, **kwargs)
     
     def get_queryset(self):
-        queryset = WorkHistory.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None)).order_by('order')
+        queryset = WorkHistory.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None))
         return queryset
 
 class GetWorkHistoryDetails(ListAPIView):
@@ -24,7 +24,7 @@ class GetWorkHistoryDetails(ListAPIView):
         return self.list(request, *args, **kwargs)
     
     def get_queryset(self):
-        queryset = WorkHistoryDetails.objects.filter(work_reltn=self.request.query_params.get('work_id',None)).order_by('order')
+        queryset = WorkHistoryDetails.objects.filter(work_reltn=self.request.query_params.get('work_id',None))
         return queryset
     
 class GetApplicantWorkData(APIView):

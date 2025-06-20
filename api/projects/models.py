@@ -21,6 +21,9 @@ class Project(models.Model):
     description = models.TextField(max_length=500,verbose_name=_('Description'))
     order = models.PositiveIntegerField(default=100)
     
+    class Meta:
+        ordering = ['order']
+        
     @staticmethod
     def getProjectInfoObj(applicant):
         project_queryset = Project.objects.filter(applicant_reltn=applicant).prefetch_related('project_details').order_by('order')
@@ -65,3 +68,4 @@ class ProjectDetails(models.Model):
     
     class Meta:
         verbose_name_plural=_('Project Details')
+        ordering = ['order']

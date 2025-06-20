@@ -20,8 +20,10 @@ class WorkHistory(models.Model):
     to_date = models.DateField(null=True,blank=True,verbose_name=_('End Date'))
     current_employer = models.BooleanField(default=False,verbose_name=_('Current Employer'))
     order = models.PositiveIntegerField(default=100)
-    active = models.BooleanField(default=True)
-    
+
+    class Meta:
+        ordering = ['order']
+        
     @staticmethod
     def getWorkInformationObj(applicant):
         work_queryset = WorkHistory.objects.filter(applicant_reltn=applicant).prefetch_related('work_details').order_by('order')
@@ -51,6 +53,7 @@ class WorkHistory(models.Model):
     
     class Meta:
         verbose_name_plural=_('Employer')
+        ordering = ['order']
         
 class WorkHistoryDetails(models.Model):
     id = models.CharField(
@@ -69,3 +72,4 @@ class WorkHistoryDetails(models.Model):
         
     class Meta:
         verbose_name_plural=_('Employment Details')
+        ordering = ['order']

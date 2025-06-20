@@ -13,7 +13,7 @@ class GetProjects(ListAPIView):
         return self.list(request, *args, **kwargs)
     
     def get_queryset(self):
-        queryset = Project.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None)).order_by('order')
+        queryset = Project.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None))
         return queryset
 
 class GetProjectDetails(ListAPIView):
@@ -24,7 +24,7 @@ class GetProjectDetails(ListAPIView):
         return self.list(request, *args, **kwargs)
     
     def get_queryset(self):
-        queryset = ProjectDetails.objects.filter(project_reltn=self.request.query_params.get('project',None)).order_by('order')
+        queryset = ProjectDetails.objects.filter(project_reltn=self.request.query_params.get('project',None))
         return queryset
     
 class GetProjectSet(APIView):
