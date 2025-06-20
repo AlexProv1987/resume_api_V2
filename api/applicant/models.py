@@ -27,14 +27,25 @@ class Applicant(models.Model):
     def get_applicant_resume(applicant_id:str):
         from api.work_details.models import WorkHistory
         from api.projects.models import Project
-        
+        from api.applicant_details.models import AdditionalContext
         aplicant=Applicant.objects.prefetch_related(
             'skills',
             'education',
             'certifications',
             'awards',
             'references',
-            'context',
+            Prefetch(
+              'context',
+              queryset=AdditionalContext.objects.filter(active=True)  
+            ),
+            Prefetch(
+                'social_links',
+                queryset=ApplicantSocials.objects.filter(show=True)
+            ),
+            Prefetch(
+                'contact_links',
+                queryset=ApplicantContactMethods.objects.filter(show=True)
+            ),
             Prefetch(
                 'projects',
                 queryset=Project.objects.prefetch_related('project_details')
@@ -46,7 +57,11 @@ class Applicant(models.Model):
         ).get(pk=applicant_id)
         
         return aplicant
-        
+    
+    @staticmethod
+    def get_applicant_set_serialized(applicant_id:str):
+        pass
+    
     def __str__(self):
         return f"{self.user_reltn.first_name}  {self.user_reltn.last_name}"
 
@@ -68,7 +83,7 @@ class ApplicantSocials(models.Model):
     applicant_reltn=models.ForeignKey(Applicant,on_delete=models.CASCADE,related_name='social_links',verbose_name=_('Applicant'))
     platform = models.CharField(max_length=20, choices=SOCIAL_CHOICES)
     url = models.URLField()
-    show = models.BooleanField(default=True,help_text=_('Checked will display on resume web page.'))
+    show = models.BooleanField(default=True,db_index=True,help_text=_('Checked will display on resume web page.'))
     order = models.IntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
         
     class Meta:
@@ -91,9 +106,9 @@ class ApplicantContactMethods(models.Model):
         default=generate_id
         )
     applicant_reltn=models.ForeignKey(Applicant,on_delete=models.CASCADE,related_name='contact_links',verbose_name=_('Applicant'))
-    contact_type = models.CharField(max_length=20, choices=CONTACT_TYPE_CHOICES,verbose_name=_('Applicant'))
+    contact_type = models.CharField(max_length=20, choices=CONTACT_TYPE_CHOICES,verbose_name=_('Contact Type'))
     value = models.CharField(max_length=75)
-    show = models.BooleanField(default=True,help_text=_('Checked will display on resume web page.'))
+    show = models.BooleanField(default=True,db_index=True,help_text=_('Checked will display on resume web page.'))
     order = models.IntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
     
     class Meta:

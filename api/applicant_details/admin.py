@@ -226,7 +226,8 @@ class AwardsAdmin(admin.ModelAdmin):
 @admin.register(AdditionalContext)
 class AdditionalContextAdmin(admin.ModelAdmin):
     list_display=('applicant_reltn','context_text','active')
-
+    list_editable=('active',)
+    
     fields=('applicant_reltn',
             'context_text',
             'active',

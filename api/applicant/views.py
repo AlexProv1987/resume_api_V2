@@ -8,12 +8,16 @@ from reportlab.lib.colors import HexColor
 from rest_framework.views import APIView
 from django.http import HttpResponse
 import io
-from .pdf_utils import FullPageBar
+from rest_framework.views import APIView
 # Create your views here.
 class GetApplicant(RetrieveAPIView):
     queryset=Applicant.objects.all()
     serializer_class=ApplicantSerializer
-    
+
+class GetApplicantSet(APIView):
+    def get(self,request,*args,**kwargs):
+        pass
+
 class GetResume(APIView):
     
     def get(self,request,pk):
@@ -22,6 +26,7 @@ class GetResume(APIView):
     def generate_pdf(self,request,pk):
         
         applicant_context = Applicant.get_applicant_resume(pk)
+        print(applicant_context.context.all())
         buffer = io.BytesIO()
         doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
 

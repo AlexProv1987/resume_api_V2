@@ -145,7 +145,7 @@ class AdditionalContext(models.Model):
                                     verbose_name=_('Context'), 
                                     help_text=_("Additional Information you want to tell a LLM to know you more.")
                                 )
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(default=True,db_index=True)
     
     def __str__(self):
         return f"{self.applicant_reltn.user_reltn.first_name} {self.applicant_reltn.user_reltn.last_name}" 
