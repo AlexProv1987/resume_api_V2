@@ -2,6 +2,7 @@ from django.db import models
 from api.applicant.models import Applicant
 from common.pk_generator import generate_id
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 class Project(models.Model):
     id = models.CharField(
@@ -19,7 +20,7 @@ class Project(models.Model):
     source_control_url = models.URLField(null=True,blank=True,verbose_name=_('Source Control'))
     video_url = models.URLField(null=True,blank=True,verbose_name=_('Video'))
     description = models.TextField(max_length=500,verbose_name=_('Description'))
-    order = models.PositiveIntegerField(default=100)
+    order = models.PositiveIntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
     
     class Meta:
         ordering = ['order']
@@ -61,7 +62,7 @@ class ProjectDetails(models.Model):
     project_reltn = models.ForeignKey(Project,on_delete=models.CASCADE, related_name='project_details',verbose_name=_('Project'))
     detail_text = models.CharField(max_length=255,blank=True,null=True,verbose_name=_('Short Description'))
     detail_image = models.URLField(blank=True,null=True,verbose_name=_('Image'))
-    order = models.PositiveIntegerField(default=100)
+    order = models.PositiveIntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
     
     def __str__(self):
         return self.project_reltn.name

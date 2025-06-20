@@ -2,6 +2,7 @@ from django.db import models
 from api.applicant.models import Applicant
 from common.pk_generator import generate_id
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 class Skill(models.Model):
     id = models.CharField(
@@ -17,7 +18,7 @@ class Skill(models.Model):
     skill_name = models.CharField(max_length=50,db_index=True,verbose_name=_('Skill'))
     skill_description = models.CharField(max_length=255,blank=True,null=True,verbose_name=_('Short Description'))
     years_of_experience = models.PositiveIntegerField(default=0,verbose_name=_('Years of Experience'))
-    order=models.PositiveIntegerField(default=100)
+    order=models.PositiveIntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
     skill_logo=models.URLField(blank=True,null=True,verbose_name=_('Logo'))
     
     def __str__(self):
@@ -62,7 +63,7 @@ class Education(models.Model):
     from_date = models.DateField(blank=False,null=False,verbose_name=_('Start Date'))
     to_date = models.DateField(verbose_name=_('End Date'))
     currently_attending = models.BooleanField(default=False,verbose_name=_('Attending'))
-    order=models.PositiveIntegerField(default=100)
+    order=models.PositiveIntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
     
     def __str__(self):
         return self.name
@@ -81,7 +82,7 @@ class Certification(models.Model):
     applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'),related_name='certifications')
     name = models.CharField(max_length=255,db_index=True,verbose_name=_('Certification Name'))
     attained_on = models.DateField(null=False,verbose_name=_('Recieved Date'))
-    order=models.PositiveIntegerField(default=100)
+    order=models.PositiveIntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
     
     def __str__(self):
         return self.name
@@ -100,7 +101,7 @@ class References(models.Model):
     name = models.CharField(max_length=255,db_index=True,verbose_name=_('Reference Full Name'))
     relation = models.CharField(max_length=255,verbose_name=_('Relation'))
     job_title=models.CharField(max_length=50,null=True,blank=True,verbose_name=_('Job Title'))
-    order=models.PositiveIntegerField(default=100)
+    order=models.PositiveIntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
     reference_recommendation = models.CharField(max_length=255,null=True,blank=True,verbose_name=_('Recommendation'))
     
     def __str__(self):
@@ -120,7 +121,7 @@ class Awards(models.Model):
     applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE,verbose_name=_('Applicant'),related_name='awards')
     reward_name = models.CharField(max_length=50,db_index=True,verbose_name=_('Award Name'))
     reward_descrption = models.CharField(max_length=150,blank=True,null=True,verbose_name=_('Short Description'))
-    order=models.PositiveIntegerField(default=100)
+    order=models.PositiveIntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
     
     def __str__(self):
         return self.reward_name

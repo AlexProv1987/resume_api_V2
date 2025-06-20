@@ -2,6 +2,7 @@ from django.db import models
 from api.applicant.models import Applicant
 from common.pk_generator import generate_id
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 class WorkHistory(models.Model):
     id = models.CharField(
@@ -19,7 +20,7 @@ class WorkHistory(models.Model):
     from_date = models.DateField(verbose_name=_('Start Date'))
     to_date = models.DateField(null=True,blank=True,verbose_name=_('End Date'))
     current_employer = models.BooleanField(default=False,verbose_name=_('Current Employer'))
-    order = models.PositiveIntegerField(default=100)
+    order = models.PositiveIntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
 
     class Meta:
         ordering = ['order']
@@ -64,7 +65,7 @@ class WorkHistoryDetails(models.Model):
         )
     work_reltn = models.ForeignKey(WorkHistory,on_delete=models.CASCADE,related_name='work_details',verbose_name=_('Employer'))
     work_detail_text = models.CharField(max_length=255,verbose_name=_('Description'), help_text=_('These are your work bullet points on a resume.'))
-    order = models.PositiveIntegerField(default=100)
+    order = models.PositiveIntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
     active = models.BooleanField(default=True)
     
     def __str__(self):

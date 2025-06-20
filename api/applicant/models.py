@@ -3,6 +3,7 @@ from common.pk_generator import generate_id
 from api.user.models import User
 from django.db.models import Prefetch
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 class Applicant(models.Model):
     id = models.CharField(
@@ -49,7 +50,6 @@ class Applicant(models.Model):
     def __str__(self):
         return f"{self.user_reltn.first_name}  {self.user_reltn.last_name}"
 
-
 class ApplicantSocials(models.Model):
     SOCIAL_CHOICES = [
         ('linkedin', 'LinkedIn'),
@@ -59,13 +59,20 @@ class ApplicantSocials(models.Model):
         ('mastodon', 'Mastodon'),
         ('other', 'Other'),
     ]
-    applicant_reltn=models.ForeignKey(Applicant,on_delete=models.CASCADE,related_name='social_links')
+    id = models.CharField(
+        max_length=37,
+        primary_key=True,
+        editable=False,
+        default=generate_id
+        )
+    applicant_reltn=models.ForeignKey(Applicant,on_delete=models.CASCADE,related_name='social_links',verbose_name=_('Applicant'))
     platform = models.CharField(max_length=20, choices=SOCIAL_CHOICES)
     url = models.URLField()
-    show = models.BooleanField(default=True)
-    order = models.IntegerField(default=0)
-    
+    show = models.BooleanField(default=True,help_text=_('Checked will display on resume web page.'))
+    order = models.IntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
+        
     class Meta:
+        verbose_name_plural=_('Socials')
         unique_together = ('applicant_reltn', 'platform')
         ordering = ['order']
         
@@ -77,13 +84,19 @@ class ApplicantContactMethods(models.Model):
         ('whatsapp', 'WhatsApp'),
         ('signal', 'Signal'),
     ]
-    
-    applicant_reltn=models.ForeignKey(Applicant,on_delete=models.CASCADE,related_name='contact_links')
-    contact_type = models.CharField(max_length=20, choices=CONTACT_TYPE_CHOICES)
-    value = models.CharField(max_length=255)
-    show = models.BooleanField(default=True)
-    order = models.IntegerField(default=0)
+    id = models.CharField(
+        max_length=37,
+        primary_key=True,
+        editable=False,
+        default=generate_id
+        )
+    applicant_reltn=models.ForeignKey(Applicant,on_delete=models.CASCADE,related_name='contact_links',verbose_name=_('Applicant'))
+    contact_type = models.CharField(max_length=20, choices=CONTACT_TYPE_CHOICES,verbose_name=_('Applicant'))
+    value = models.CharField(max_length=75)
+    show = models.BooleanField(default=True,help_text=_('Checked will display on resume web page.'))
+    order = models.IntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
     
     class Meta:
+        verbose_name_plural=_('Contact Information')
         unique_together = ('applicant_reltn', 'contact_type')
         ordering = ['order']
