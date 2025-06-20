@@ -1,5 +1,5 @@
 from rest_framework.generics import RetrieveAPIView
-from .serializers import ApplicantSerializer
+from .serializers import ApplicantSerializer,GetApplicantSetSerializer
 from .models import Applicant
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image, PageBreak
@@ -8,15 +8,19 @@ from reportlab.lib.colors import HexColor
 from rest_framework.views import APIView
 from django.http import HttpResponse
 import io
+from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.status import HTTP_200_OK
 # Create your views here.
 class GetApplicant(RetrieveAPIView):
     queryset=Applicant.objects.all()
     serializer_class=ApplicantSerializer
 
 class GetApplicantSet(APIView):
-    def get(self,request,*args,**kwargs):
-        pass
+    def get(self,request,pk,*args,**kwargs):
+        applicant = Applicant.get_applicant_base_info(pk)
+        serializer = GetApplicantSetSerializer(applicant)
+        return Response(serializer.data,status=HTTP_200_OK)
 
 class GetResume(APIView):
     
