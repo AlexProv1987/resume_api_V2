@@ -10,7 +10,7 @@ from django.http import HttpResponse
 import io
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.status import HTTP_200_OK
+from rest_framework.status import HTTP_200_OK,HTTP_404_NOT_FOUND
 # Create your views here.
 class GetApplicant(RetrieveAPIView):
     queryset=Applicant.objects.all()
@@ -19,8 +19,12 @@ class GetApplicant(RetrieveAPIView):
 class GetApplicantSet(APIView):
     def get(self,request,pk,*args,**kwargs):
         applicant = Applicant.get_applicant_base_info(pk)
-        serializer = GetApplicantSetSerializer(applicant)
-        return Response(serializer.data,status=HTTP_200_OK)
+        
+        if applicant:
+            serializer = GetApplicantSetSerializer(applicant)
+            return Response(serializer.data,status=HTTP_200_OK)
+        
+        return Response({'message':'Not Found'},status=HTTP_404_NOT_FOUND)
 
 class GetResume(APIView):
     
@@ -30,7 +34,6 @@ class GetResume(APIView):
     def generate_pdf(self,request,pk):
         
         applicant_context = Applicant.get_applicant_resume(pk)
-        print(applicant_context.context.all())
         buffer = io.BytesIO()
         doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
 

@@ -19,7 +19,7 @@ class Skill(models.Model):
     skill_description = models.CharField(max_length=255,blank=True,null=True,verbose_name=_('Short Description'))
     years_of_experience = models.PositiveIntegerField(default=0,verbose_name=_('Years of Experience'))
     order=models.PositiveIntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
-    skill_logo=models.URLField(blank=True,null=True,verbose_name=_('Logo'))
+    skill_logo=models.URLField(verbose_name=_('Logo'))
     
     def __str__(self):
         return self.skill_name

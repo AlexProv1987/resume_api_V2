@@ -56,19 +56,21 @@ class Applicant(models.Model):
     
     @staticmethod
     def get_applicant_base_info(applicant_id:str):
-        aplicant=Applicant.objects.prefetch_related(
-            Prefetch(
-                'social',
-                queryset=ApplicantSocials.objects.filter(show=True)
-            ),
-            Prefetch(
-                'contact_method',
-                queryset=ApplicantContactMethods.objects.filter(show=True)
-            ),
-        ).get(pk=applicant_id)
-        
-        return aplicant
-        
+        try:
+            aplicant=Applicant.objects.prefetch_related(
+                Prefetch(
+                    'social',
+                    queryset=ApplicantSocials.objects.filter(show=True)
+                ),
+                Prefetch(
+                    'contact_method',
+                    queryset=ApplicantContactMethods.objects.filter(show=True)
+                ),
+            ).get(pk=applicant_id)
+            return aplicant
+        except Applicant.DoesNotExist:
+            return None
+    
     def __str__(self):
         return f"{self.user_reltn.first_name}  {self.user_reltn.last_name}"
 
