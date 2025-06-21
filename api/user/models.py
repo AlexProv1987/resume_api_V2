@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from common.pk_generator import generate_id
+from plans.models import Plan
 
 class User(AbstractUser):
     id = models.CharField(
@@ -12,3 +13,6 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=150, blank=False,null=False)
     email = models.EmailField(unique=True,blank=False,null=False)
     phone_number = models.CharField(max_length=20,blank=True,null=True)
+    plan = models.ForeignKey(Plan,default=Plan.get_default_plan,on_delete=models.SET(Plan.get_default_plan))
+
+
