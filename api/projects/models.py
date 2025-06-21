@@ -19,7 +19,7 @@ class Project(models.Model):
     demo_url = models.URLField(null=True,blank=True,verbose_name=_('Demo'))
     source_control_url = models.URLField(null=True,blank=True,verbose_name=_('Source Control'))
     video_url = models.URLField(null=True,blank=True,verbose_name=_('Video'))
-    description = models.TextField(max_length=500,verbose_name=_('Description'))
+    description = models.TextField(max_length=1000,verbose_name=_('Description'))
     order = models.PositiveIntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
     
     class Meta:
