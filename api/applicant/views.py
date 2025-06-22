@@ -16,15 +16,16 @@ class GetApplicant(RetrieveAPIView):
     queryset=Applicant.objects.all()
     serializer_class=ApplicantSerializer
 
-class GetWidgetInfo(APIView):
+class GetApplicantData(APIView):
     def get(self,request,pk,*args,**kwargs):
-        applicant = Applicant.get_applicant_widget_info(pk)
+        applicant = Applicant.get_applicant_data(pk)
         
         if applicant:
             serializer = GetApplicantSetSerializer(applicant)
             return Response(serializer.data,status=HTTP_200_OK)
         
         return Response({'message':'Not Found'},status=HTTP_404_NOT_FOUND)
+
 
 class GetResume(APIView):
     

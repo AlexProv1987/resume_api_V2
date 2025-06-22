@@ -1,64 +1,53 @@
 from rest_framework.generics import ListAPIView
 from .serializers import *
 from .models import *
+from common.mixins.plan_limit_mixin import EnforcePlanLimitMixin
+from plans.models import RecordLimit
 # Create your views here.
-class GetApplicantSkills(ListAPIView):
+class GetApplicantSkills(EnforcePlanLimitMixin,ListAPIView):
     serializer_class=SkillSerializer
+    queryset=Skill.objects.all()
     
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
     
-    def get_queryset(self):
-        queryset = Skill.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None))
-        return queryset
     
-class GetApplicantEducation(ListAPIView):
+class GetApplicantEducation(EnforcePlanLimitMixin,ListAPIView):
     serializer_class=EducationSerializer
+    queryset=Education.objects.all()
     
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
     
-    def get_queryset(self):
-        queryset = Education.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None))
-        return queryset
     
-class GetApplicantCertifications(ListAPIView):
+class GetApplicantCertifications(EnforcePlanLimitMixin,ListAPIView):
     serializer_class=CertificationSerializer
+    queryset=Certification.objects.all()
     
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
-    
-    def get_queryset(self):
-        queryset = Certification.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None))
-        return queryset
+   
      
-class GetApplicantReferences(ListAPIView):
+class GetApplicantReferences(EnforcePlanLimitMixin,ListAPIView):
     serializer_class=ReferencesSerializer
+    queryset=References.objects.all()
     
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+   
     
-    def get_queryset(self):
-        queryset = References.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None))
-        return queryset
-    
-class GetApplicantAwards(ListAPIView):
+class GetApplicantAwards(EnforcePlanLimitMixin,ListAPIView):
     serializer_class=AwardsSerializer
+    queryset=Awards.objects.all()
     
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+  
     
-    def get_queryset(self):
-        queryset = Awards.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None))
-        return queryset
-    
-class GetApplicantAdditionalContext(ListAPIView):
+class GetApplicantAdditionalContext(EnforcePlanLimitMixin,ListAPIView):
     serializer_class=AdditionalContextSerializer
+    queryset=AdditionalContext.objects.all()
     
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
     
-    def get_queryset(self):
-        queryset = AdditionalContext.objects.filter(applicant_reltn=self.request.query_params.get('applicant',None),active=True)
-        return queryset
-      

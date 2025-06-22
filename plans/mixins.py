@@ -6,7 +6,6 @@ class EnforceRecordLimitMixin:
     
     def get_plan(self):
         user = None
-        print(self)
         if hasattr(self, 'applicant_reltn') and hasattr(self.applicant_reltn, 'user_reltn'):
             user = self.applicant_reltn.user_reltn
 

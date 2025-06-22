@@ -1,5 +1,6 @@
 from django.db import models
 from api.applicant.models import Applicant
+"""Leaving this in place but leaving alone for now."""
 #pip install django-admin-sortable2
 #region developer controlled    
 class Page(models.Model):

@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
-
 # Create your models here.
 class Plan(models.Model):
     name = models.CharField(max_length=100,unique=True,db_index=True)

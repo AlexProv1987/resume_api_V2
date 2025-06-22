@@ -11,4 +11,5 @@ class PlanAdmin(admin.ModelAdmin):
 
 @admin.register(RecordLimit)
 class RecordLimitAdmin(admin.ModelAdmin):
+    list_editable=('max_records',)
     list_display=('plan','content_type','max_records')

@@ -20,6 +20,10 @@ class Applicant(models.Model):
     current_title = models.CharField(max_length=50,null=True,blank=True,verbose_name=_('Current Title'))
     allow_feedback = models.BooleanField(default=True)
     
+    """
+    this needs to be updated to consider the plan limits for each table as well.
+    As this is for my resume currently well leave alone.
+    """
     @staticmethod
     def get_applicant_resume(applicant_id:str):
         from api.work_details.models import WorkHistory
@@ -55,8 +59,9 @@ class Applicant(models.Model):
         
         return aplicant
     
+    
     @staticmethod
-    def get_applicant_widget_info(applicant_id:str):
+    def get_applicant_data(applicant_id:str):
         try:
             aplicant=Applicant.objects.prefetch_related(
                 Prefetch(
@@ -71,6 +76,7 @@ class Applicant(models.Model):
             return aplicant
         except Applicant.DoesNotExist:
             return None
+    
     
     def __str__(self):
         return f"{self.user_reltn.first_name}  {self.user_reltn.last_name}"
