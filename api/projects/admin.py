@@ -2,9 +2,10 @@ from django.contrib import admin
 from .models import Project,ProjectDetails,Applicant
 from django.core.exceptions import ValidationError
 from .filters import UserRestrictedProjectFilter
+from api.applicant_details.admin import ApplicantDetailsBaseAdmin
 # Register your models here.
 @admin.register(Project)
-class ProjectAdmin(admin.ModelAdmin):
+class ProjectAdmin(ApplicantDetailsBaseAdmin):
     list_display=('name','applicant_reltn','order',)
     search_fields=('name',)
     search_help_text='Search By Project Name'
@@ -18,35 +19,6 @@ class ProjectAdmin(admin.ModelAdmin):
               'description',
               'order',
               )
-    
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        if request.user.is_superuser:
-           return qs
-        return qs.filter(applicant_reltn__user_reltn=request.user)
-        
-    def get_fields(self, request, obj=None):
-        fields = super().get_fields(request, obj)
-        if request.user.is_superuser:
-            return fields
-        return [f for f in fields if f != 'applicant_reltn']
-    
-    def get_readonly_fields(self, request, obj=None):
-        if obj: 
-            return ('applicant_reltn',)
-        return ()
-    
-    def save_model(self, request, obj, form, change):
-        
-        if not request.user.is_superuser:
-            try:
-                applicant = Applicant.objects.get(user_reltn=request.user)
-            except Applicant.DoesNotExist:
-                raise ValidationError("No Applicant profile is associated with this user.")
-            
-            obj.applicant_reltn = applicant
-            
-        super().save_model(request, obj, form, change)
         
 @admin.register(ProjectDetails)
 class ProjectDetailsAdmin(admin.ModelAdmin):

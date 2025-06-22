@@ -2,9 +2,10 @@ from django.contrib import admin
 from .models import *
 from django.core.exceptions import ValidationError
 from .filters import UserRestrictedWorkFilter
+from api.applicant_details.admin import ApplicantDetailsBaseAdmin
 # Register your models here.
 @admin.register(WorkHistory)
-class WorkHistoryAdmin(admin.ModelAdmin):
+class WorkHistoryAdmin(ApplicantDetailsBaseAdmin):
     list_display=('employer_name','applicant_reltn','order',)
     search_fields=('employer_name',)
     search_help_text='Search By Employer Name'
@@ -17,41 +18,12 @@ class WorkHistoryAdmin(admin.ModelAdmin):
               'order',
               'current_employer',
               )
-    
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        if request.user.is_superuser:
-           return qs
-        return qs.filter(applicant_reltn__user_reltn=request.user)
-    
-    def get_fields(self, request, obj=None):
-        fields = super().get_fields(request, obj)
-        if request.user.is_superuser:
-            return fields
-        return [f for f in fields if f != 'applicant_reltn']
-    
-    def get_readonly_fields(self, request, obj=None):
-        if obj: 
-            return ('applicant_reltn',)
-        return ()
-    
-    def save_model(self, request, obj, form, change):
-        
-        if not request.user.is_superuser:
-            try:
-                applicant = Applicant.objects.get(user_reltn=request.user)
-            except Applicant.DoesNotExist:
-                raise ValidationError("No Applicant profile is associated with this user.")
-            
-            obj.applicant_reltn = applicant
-            
-        super().save_model(request, obj, form, change)
 
 @admin.register(WorkHistoryDetails)
 class WorkHistoryDetailsAdmin(admin.ModelAdmin):
     list_per_page=20
     list_editable=('order',)
-    list_display=('work_reltn','order',)
+    list_display=('work_reltn','work_detail_text','order',)
     search_fields=('work_reltn__employer_name',)
     search_help_text='Search By Employer Name'
     list_filter=(UserRestrictedWorkFilter,)

@@ -4,7 +4,7 @@ from common.pk_generator import generate_id
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
 from plans.mixins import EnforceRecordLimitMixin
-# Create your models here.
+
 class Skill(EnforceRecordLimitMixin,models.Model):
     id = models.CharField(
         max_length=37,
@@ -61,8 +61,8 @@ class Education(EnforceRecordLimitMixin,models.Model):
                                        verbose_name=_('Education Level'))
     area_of_study = models.CharField(max_length=50,null=True,blank=True,db_index=True,verbose_name=_('Major'))
     name = models.CharField(max_length=255,verbose_name=_('Institution'))
-    from_date = models.DateField(blank=False,null=False,verbose_name=_('Start Date'))
-    to_date = models.DateField(verbose_name=_('End Date'))
+    from_date = models.DateField(verbose_name=_('Start Date'))
+    to_date = models.DateField(blank=True,null=True,verbose_name=_('End Date'))
     currently_attending = models.BooleanField(default=False,verbose_name=_('Attending'))
     order=models.PositiveIntegerField(default=100,validators=[MinValueValidator(1), MaxValueValidator(1000)])
     
@@ -142,7 +142,7 @@ class AdditionalContext(EnforceRecordLimitMixin,models.Model):
                                         on_delete=models.CASCADE,
                                         verbose_name=_('Applicant'),
                                         related_name='context')
-    context_text = models.CharField(max_length=255,
+    context_text = models.TextField(max_length=300,
                                     verbose_name=_('Context'), 
                                     help_text=_("Additional Information you want to tell a LLM to know you more.")
                                 )
