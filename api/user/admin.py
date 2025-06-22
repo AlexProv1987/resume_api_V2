@@ -8,12 +8,21 @@ class CustomerUserManager(UserAdmin):
     
     list_display=('username',
                   'first_name',
-                  'last_name'
+                  'last_name',
+                   'plan',
                 )
     
     def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj)
+
         if request.user.is_superuser:
-            return super().get_fieldsets(request, obj)
+            new_fieldsets = []
+            for name, opts in fieldsets:
+                fields = list(opts.get("fields", []))
+                if name == _("Permissions") and "plan" not in fields:
+                    fields.append("plan")
+                new_fieldsets.append((name, {"fields": fields}))
+            return new_fieldsets
 
         return (
             (None, {"fields": ("username", "password")}),
