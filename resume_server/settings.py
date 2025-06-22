@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "api.projects",
     "api.feedback",
     "api.question",
+    "api.site_config",
 ]
 
 MIDDLEWARE = [

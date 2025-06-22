@@ -16,9 +16,9 @@ class GetApplicant(RetrieveAPIView):
     queryset=Applicant.objects.all()
     serializer_class=ApplicantSerializer
 
-class GetApplicantSet(APIView):
+class GetWidgetInfo(APIView):
     def get(self,request,pk,*args,**kwargs):
-        applicant = Applicant.get_applicant_base_info(pk)
+        applicant = Applicant.get_applicant_widget_info(pk)
         
         if applicant:
             serializer = GetApplicantSetSerializer(applicant)

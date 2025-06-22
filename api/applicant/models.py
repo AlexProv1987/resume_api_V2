@@ -18,7 +18,8 @@ class Applicant(models.Model):
     banner_img = models.URLField(null=True,blank=True,verbose_name=_('Banner Image'))
     applicant_photo = models.URLField(null=True,blank=True,verbose_name=_('Photo'))
     current_title = models.CharField(max_length=50,null=True,blank=True,verbose_name=_('Current Title'))
-
+    allow_feedback = models.BooleanField(default=True)
+    
     @staticmethod
     def get_applicant_resume(applicant_id:str):
         from api.work_details.models import WorkHistory
@@ -55,7 +56,7 @@ class Applicant(models.Model):
         return aplicant
     
     @staticmethod
-    def get_applicant_base_info(applicant_id:str):
+    def get_applicant_widget_info(applicant_id:str):
         try:
             aplicant=Applicant.objects.prefetch_related(
                 Prefetch(
@@ -124,3 +125,5 @@ class ApplicantContactMethods(models.Model):
         verbose_name_plural=_('Contact Information')
         unique_together = ('applicant_reltn', 'contact_type')
         ordering = ['order']
+        
+
