@@ -1,48 +1,94 @@
-# django-rest-api
-A REST api written in Django for people with deadlines
+# Resume Builder MVP
 
-## Technologies used
-* [Django](https://www.djangoproject.com/): The web framework for perfectionists with deadlines (Django builds better web apps with less code).
-* [DRF](www.django-rest-framework.org/): A powerful and flexible toolkit for building Web APIs
+This is a Django + React project for building customizable, modular digital resumes. It's designed to allow non-technical users ("applicants") to configure how their resume appears, while giving developers the flexibility to extend and theme the system if they choose to fork it.
 
+---
 
-## Installation
-* If you wish to run your own build, first ensure you have python globally installed in your computer. If not, you can get python [here](https://www.python.org").
-* After doing this, confirm that you have installed virtualenv globally as well. If not, run this:
-    ```bash
-        $ pip install virtualenv
-    ```
-* Then, Git clone this repo to your PC
-    ```bash
-        $ git clone https://github.com/AlexProv1987/resume_api_V2.git
-    ```
+## 🧠 Project Goals
 
-* #### Dependencies
-    1. Cd into your the cloned repo as such:
-        ```bash
-            $ cd django-rest-api
-        ```
-    2. Create and fire up your virtual environment:
-        ```bash
-            $ virtualenv  venv -p python3
-            $ source venv/bin/activate
-        ```
-    3. Install the dependencies needed to run the app:
-        ```bash
-            $ pip install -r requirements.txt
-        ```
-    4. Make those migrations work
-        ```bash
-            $ python manage.py makemigrations
-            $ python manage.py migrate
-        ```
+- ✅ Build a personal-use digital resume tool
+- ✅ Serve as a real-world, full-stack portfolio piece
+- ✅ Balance extensibility with MVP pragmatism
+- ✅ Allow future forking by others with clean architecture
+---
 
-* #### Run It
-    Fire up the server using this one simple command:
-    ```bash
-        $ python manage.py runserver
-    ```
-    You can now access the file api service on your browser by using
-    ```
-        http://localhost:8000/auth/
-    ```
+### 📦 Plan & Subscription Enforcement
+- Record creation and retrieval are capped based on applicant's current subscription plan
+- Limits are enforced in both model mixins and DRF view mixins
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+- Django 4+
+- Django REST Framework
+- PostgreSQL
+- Redis (for caching)
+- ContentType framework (for plan-aware limits)
+
+### Frontend
+- React + TypeScript
+- React-Bootstrap
+- Axios
+
+---
+
+## 🧩 Architecture Overview
+
+### View Logic
+- DRF views for each widget respect plan-based record limits
+- Prefetch queries are capped based on subscription
+
+---
+
+## 🗃️ Developer Notes
+
+### Deferred Features (Commented/Planned, not Implemented)
+- Per-widget theming via `advanced_config`
+- AI-powered resume assistant
+- Resume is rendered by grouping widgets by page region
+- `Page`, `Widget`, `PageWidget`: Developer-defined layout
+- `ApplicantWidget`: Applicant-defined widget preferences (visibility, order)
+- `WidgetInstanceOption`: Optional per-widget config for advanced users
+
+These are intentionally deferred to keep the MVP focused and deployable. The architecture supports them cleanly if added later.
+
+### Design Philosophy
+> "Is this necessary for the user right now, or just satisfying for the engineer in me?"
+
+This principle guided what got built and what got commented.
+
+---
+
+## 🧪 Local Dev
+
+```bash
+# Backend
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+# Frontend
+cd frontend
+npm install
+npm start
+```
+---
+
+## 📎 License
+The MIT License (MIT)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
+
+## 🙏 Thanks
+Built by a developer for developers — with clean separation between dev flexibility and non-technical user UX.
+
+DMs welcome if you fork it and make something cool!
+
