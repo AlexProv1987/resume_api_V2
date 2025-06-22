@@ -3,8 +3,9 @@ from api.applicant.models import Applicant
 from common.pk_generator import generate_id
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
+from common.mixins import EnforceRecordLimitMixin
 # Create your models here.
-class Project(models.Model):
+class Project(EnforceRecordLimitMixin,models.Model):
     id = models.CharField(
         max_length=37,
         primary_key=True,
@@ -52,7 +53,7 @@ class Project(models.Model):
     def __str__(self):
         return self.name
 
-class ProjectDetails(models.Model):
+class ProjectDetails(EnforceRecordLimitMixin,models.Model):
     id = models.CharField(
         max_length=37,
         primary_key=True,

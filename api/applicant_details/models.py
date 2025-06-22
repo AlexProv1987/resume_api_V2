@@ -3,8 +3,9 @@ from api.applicant.models import Applicant
 from common.pk_generator import generate_id
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
+from common.mixins import EnforceRecordLimitMixin
 # Create your models here.
-class Skill(models.Model):
+class Skill(EnforceRecordLimitMixin,models.Model):
     id = models.CharField(
         max_length=37,
         primary_key=True,
@@ -27,7 +28,7 @@ class Skill(models.Model):
     class Meta:
         ordering = ['order']
         
-class Education(models.Model):
+class Education(EnforceRecordLimitMixin,models.Model):
     
     EDUCATION_LEVEL_CHOICES = [
     ("none", "No Formal Education"),
@@ -72,7 +73,7 @@ class Education(models.Model):
         verbose_name_plural=_('Education')
         ordering = ['order']
         
-class Certification(models.Model):
+class Certification(EnforceRecordLimitMixin,models.Model):
     id = models.CharField(
         max_length=37,
         primary_key=True,
@@ -90,7 +91,7 @@ class Certification(models.Model):
     class Meta:
         ordering = ['order']
         
-class References(models.Model):
+class References(EnforceRecordLimitMixin,models.Model):
     id = models.CharField(
         max_length=37,
         primary_key=True,
@@ -111,7 +112,7 @@ class References(models.Model):
         verbose_name_plural=_('References')
         ordering = ['order']
         
-class Awards(models.Model):
+class Awards(EnforceRecordLimitMixin,models.Model):
     id = models.CharField(
         max_length=37,
         primary_key=True,
@@ -130,7 +131,7 @@ class Awards(models.Model):
         verbose_name_plural=_('Awards')
         ordering = ['order']
         
-class AdditionalContext(models.Model):
+class AdditionalContext(EnforceRecordLimitMixin,models.Model):
     id = models.CharField(
         max_length=37,
         primary_key=True,

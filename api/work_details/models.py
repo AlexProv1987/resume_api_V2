@@ -3,8 +3,9 @@ from api.applicant.models import Applicant
 from common.pk_generator import generate_id
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
+from common.mixins import EnforceRecordLimitMixin
 # Create your models here.
-class WorkHistory(models.Model):
+class WorkHistory(EnforceRecordLimitMixin,models.Model):
     id = models.CharField(
         max_length=37,
         primary_key=True,
@@ -56,7 +57,7 @@ class WorkHistory(models.Model):
         verbose_name_plural=_('Employer')
         ordering = ['order']
         
-class WorkHistoryDetails(models.Model):
+class WorkHistoryDetails(EnforceRecordLimitMixin,models.Model):
     id = models.CharField(
         max_length=37,
         primary_key=True,

@@ -1,10 +1,14 @@
 from django.contrib import admin
 from .models import Plan,RecordLimit
 # Register your models here.
-admin.site.register(Plan)
+@admin.register(Plan)
 class PlanAdmin(admin.ModelAdmin):
-    pass
 
-admin.site.register(RecordLimit)
+    def get_readonly_fields(self, request, obj=None):
+        if obj: 
+            return ('name',)
+        return ()
+
+@admin.register(RecordLimit)
 class RecordLimitAdmin(admin.ModelAdmin):
-    pass
+    list_display=('plan','content_type','max_records')

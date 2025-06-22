@@ -15,5 +15,8 @@ class ApplicantFeedBack(models.Model):
     user_agent=models.TextField(blank=True,null=True,verbose_name=_('User Agent'))
     created_at=models.DateTimeField(auto_now_add=True,verbose_name=_('Created'))
     
+    def __str__(self):
+        return f"Feedback ({self.rating}/5) - {self.created_at.strftime('%b %d, %Y')}"
+
     class Meta:
         verbose_name_plural=_('Feedback')
