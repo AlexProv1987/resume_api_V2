@@ -1,19 +1,27 @@
 from django.core.exceptions import ValidationError
 from plans.models import RecordLimit
+from .utils import get_user_plan
 
 class EnforceRecordLimitMixin:
     def get_plan(self):
+        user = None
+
         if hasattr(self, 'applicant') and hasattr(self.applicant, 'user'):
-            return self.applicant.user.plan
+            user = self.applicant.user_reltn
 
-        if hasattr(self, 'work_history') and hasattr(self.work_history, 'applicant'):
-            return self.work_history.applicant.user.plan
+        elif hasattr(self, 'work_history') and hasattr(self.work_history, 'applicant'):
+            user = self.work_history.applicant_reltn.user_reltn
 
-        if hasattr(self, 'project') and hasattr(self.project, 'applicant'):
-            return self.project.applicant.user.plan
+        elif hasattr(self, 'project') and hasattr(self.project, 'applicant'):
+            user = self.project.applicant_reltn.user_reltn
 
-        raise ValidationError("Cannot resolve user plan from this model instance.")
+        if not user:
+            raise ValidationError("Cannot resolve user from this model instance.")
 
+        if user.is_superuser:
+            return None
+
+        return get_user_plan(user)
 
     def get_existing_count(self):
         model_class = self.__class__
@@ -29,7 +37,7 @@ class EnforceRecordLimitMixin:
 
         raise ValidationError("Cannot count related objects for this model.")
 
-    def check_record_limit(self):
+    def check_record_limit(self): 
         plan = self.get_plan()
         model_name = self.__class__.__name__
         limit = RecordLimit.objects.filter(plan=plan, model_name=model_name).first()

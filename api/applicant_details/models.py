@@ -3,7 +3,7 @@ from api.applicant.models import Applicant
 from common.pk_generator import generate_id
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
-from common.mixins import EnforceRecordLimitMixin
+from plans.mixins import EnforceRecordLimitMixin
 # Create your models here.
 class Skill(EnforceRecordLimitMixin,models.Model):
     id = models.CharField(
