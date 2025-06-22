@@ -51,7 +51,7 @@ class WorkHistory(EnforceRecordLimitMixin,models.Model):
         return work_list
     
     def __str__(self):
-        return self.employer_name
+        return f"{self.employer_name} - {self.job_title}"
     
     class Meta:
         verbose_name_plural=_('Employer')

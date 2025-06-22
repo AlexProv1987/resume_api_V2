@@ -6,7 +6,7 @@ from api.applicant_details.admin import ApplicantDetailsBaseAdmin
 # Register your models here.
 @admin.register(WorkHistory)
 class WorkHistoryAdmin(ApplicantDetailsBaseAdmin):
-    list_display=('employer_name','applicant_reltn','order',)
+    list_display=('employer_name','applicant_reltn','job_title','order',)
     search_fields=('employer_name',)
     search_help_text='Search By Employer Name'
     list_editable=('order',)
