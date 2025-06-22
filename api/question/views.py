@@ -8,7 +8,7 @@ from rest_framework.status import HTTP_200_OK,HTTP_500_INTERNAL_SERVER_ERROR,HTT
 class AskQuestion(APIView):
 
     client = OpenAI(
-    api_key=settings.OPEN_AI_KEY,
+    api_key = settings.OPEN_AI_KEY if settings.OPEN_AI_KEY else "your_mom_420",
     organization='org-0sHye0dWY66aYcalIkA74kOG'
     )
     

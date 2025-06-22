@@ -1,5 +1,5 @@
 from .models import Applicant,ApplicantContactMethods,ApplicantSocials
-from api.user.serializers import UserSerializer
+from user.serializers import UserSerializer
 from rest_framework import serializers
 class ApplicantSerializer(serializers.ModelSerializer):
     user_reltn = UserSerializer()

@@ -1,6 +1,6 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from api.user.models import User
+from user.models import User
 
 @receiver(post_save, sender=User)
 def create_subscription_if_needed(sender, instance, created, **kwargs):

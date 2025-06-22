@@ -1,6 +1,6 @@
 from django.db import models
 from common.pk_generator import generate_id
-from api.user.models import User
+from user.models import User
 from django.db.models import Prefetch
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator

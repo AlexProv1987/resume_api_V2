@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Applicant,ApplicantContactMethods,ApplicantSocials
-from api.user.models import User
+from user.models import User
 from django.utils.translation import gettext_lazy as _
 from .forms import ApplicantSocialsForm,ApplicantContactForm
 
