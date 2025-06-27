@@ -1,6 +1,8 @@
 from rest_framework.views import APIView
+from rest_framework.generics import CreateAPIView
 from django.shortcuts import get_object_or_404
 from .models import ApplicantFeedBack
+from .serializers import LLMResponseSerializer
 from api.applicant.models import Applicant
 from datetime import timedelta
 from django.utils import timezone
@@ -56,3 +58,7 @@ class CreateFeedBack(APIView):
         )
         
         return Response({"success": True}, status=status.HTTP_201_CREATED)
+    
+class StoreLLMResponse(CreateAPIView):
+    serializer_class=LLMResponseSerializer
+    

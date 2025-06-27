@@ -20,3 +20,18 @@ class ApplicantFeedBack(models.Model):
 
     class Meta:
         verbose_name_plural=_('Feedback')
+        
+class LLMResponse(models.Model):
+    applicant_reltn = models.ForeignKey(Applicant,on_delete=models.CASCADE)
+    question_text = models.TextField(max_length=1000,verbose_name=_('Question'))
+    question_answer = models.TextField(max_length=3000,verbose_name=_('Answer'))
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name=_('Created'))
+    
+    def __str__(self):
+        return self.applicant_reltn.user_reltn.get_full_name()
+    
+    class Meta:
+        ordering=['-created_at']
+        verbose_name_plural=_('Question Answers')
+    
+    
